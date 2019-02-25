@@ -922,16 +922,17 @@ void ofxHapPlayer::setVolume(float volume)
     }
 }
 
-/*
+
  // TODO: need clock to understand frame numbers so we have correct position on setFrame()
 void ofxHapPlayer::setFrame(int frame)
 {
-    if (_demuxer != nullptr && _totalNumFrames > 0)
+    std::lock_guard<std::mutex> guard(_lock);
+    if (_loaded && _decodedFrame.isValid())
     {
-        _demuxer->seekFrame(std::max(0, std::min(frame, _totalNumFrames)));
+        setVideoPTSLoaded(frame);
     }
 }
-*/
+
 /*
  // TODO:
 int ofxHapPlayer::getCurrentFrame() const
